@@ -20,12 +20,12 @@ public class FlightBookingService {
 
         FlightBooking booking = new FlightBooking(
                 id,
-                request.passengerName().trim(),
-                request.flightNumber().trim(),
-                request.departureCity().trim(),
-                request.arrivalCity().trim(),
-                request.seatClass().trim(),
-                request.price(),
+            request.getPassengerName().trim(),
+            request.getFlightNumber().trim(),
+            request.getDepartureCity().trim(),
+            request.getArrivalCity().trim(),
+            request.getSeatClass().trim(),
+            request.getPrice(),
                 "CONFIRMED"
         );
 

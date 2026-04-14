@@ -1,6 +1,7 @@
 package org.acme.ticket;
 
 import jakarta.inject.Inject;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -23,8 +24,7 @@ public class FlightBookingResource {
     FlightBookingService service;
 
     @POST
-    public Response create(CreateBookingRequest request) {
-        validate(request);
+    public Response create(@Valid CreateBookingRequest request) {
         FlightBooking booking = service.create(request);
         return Response.status(Response.Status.CREATED).entity(booking.toResponse()).build();
     }
@@ -52,22 +52,5 @@ public class FlightBookingResource {
             throw new WebApplicationException("Booking not found", Response.Status.NOT_FOUND);
         }
         return Response.noContent().build();
-    }
-
-    private void validate(CreateBookingRequest request) {
-        if (request == null
-                || isBlank(request.passengerName())
-                || isBlank(request.flightNumber())
-                || isBlank(request.departureCity())
-                || isBlank(request.arrivalCity())
-                || isBlank(request.seatClass())
-                || request.price() == null
-                || request.price().signum() <= 0) {
-            throw new WebApplicationException("Invalid booking payload", Response.Status.BAD_REQUEST);
-        }
-    }
-
-    private boolean isBlank(String value) {
-        return value == null || value.isBlank();
     }
 }
